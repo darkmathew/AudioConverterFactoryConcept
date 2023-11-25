@@ -1,6 +1,6 @@
 import unittest
 from os import path
-from converter import Mp3ToWavConverter, WavToMp3Converter
+from audio_converter import Mp3ToWavConverter, WavToMp3Converter
 
 class AudioConverterTests(unittest.TestCase):
     def test_mp3_to_wav_conversion(self):
