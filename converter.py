@@ -24,7 +24,7 @@ class MpegToMp3Converter(AudioConverter):
         audio.write_audiofile(output_path, codec='libmp3lame')
 
 class MpegToWavConverter(AudioConverter):
-    def convert(self, input_path, output_path):
+    def convert(self, input_path : str, output_path : str):
         audio = AudioFileClip(input_path)
         audio.write_audiofile(output_path, codec='pcm_s16le')
 
