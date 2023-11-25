@@ -29,17 +29,19 @@ class MpegToWavConverter(AudioConverter):
         audio.write_audiofile(output_path, codec='pcm_s16le')
 
 class AudioConverterFactory:
-    @staticmethod
-    def create_converter(file_extension : str, convert_to : str):
-        if file_extension == '.mp3' and convert_to == '.wav':
-            return Mp3ToWavConverter()
-        elif file_extension == '.wav' and convert_to == '.mp3':
-            return WavToMp3Converter()
-        elif file_extension == '.mpeg' and convert_to == '.mp3':
-            return MpegToMp3Converter()
-        elif file_extension == '.mpeg' and convert_to == '.wav':
-            return MpegToWavConverter()
+    CONVERTERS = {
+        ('.mp3', '.wav'): Mp3ToWavConverter,
+        ('.wav', '.mp3'): WavToMp3Converter,
+        ('.mpeg', '.mp3'): MpegToMp3Converter,
+        ('.mpeg', '.wav'): MpegToWavConverter,
+    }
 
+    @staticmethod
+    def create_converter(file_extension: str, convert_to: str):
+        converter = AudioConverterFactory.CONVERTERS.get((file_extension, convert_to))
+        if converter:
+            return converter()
+        
         raise ValueError(f'Conversion from {file_extension} to {convert_to} not supported.')
 
 def convert_files_in_folder(folder_path : str, convert_to_format : str, output_folder : str):
